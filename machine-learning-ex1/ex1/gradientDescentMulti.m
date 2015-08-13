@@ -18,17 +18,11 @@ for iter = 1:num_iters
     %
 
     % $\theta_j := \theta_j$- \alpha \Sigma_{i=1}^{m} ( \theta X^{(i)} - y^{(i)} ) X^(i)$ ($1 <= j <= n$)
-    n = length(theta);
-    new_theta = zeros(n, 1);
-    for j = 1:n
-        partial_sum = 0.0;
-        for i = 1:m
-            partial_sum += (1.0 / m) *  (X(i, :) * theta - y(i)) * X(i, j);
-        end
-        new_theta(j) = theta(j) - alpha * partial_sum
-    end
-    theta = new_theta;
+    % Uses vectorized notation to make it simple & fast!
 
+    delta = (1/m) .* sum( (X * theta .- y) .* X );
+    theta = theta .- alpha .* delta';
+    
     % ============================================================
 
     % Save the cost J in every iteration    
