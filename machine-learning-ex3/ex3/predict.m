@@ -21,15 +21,21 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% MEMO
+% Theta1: (n2, n1 + 1) where n2=25, n1=400
+% Theta2: (n3, n2 + 1) where n3=10
+% X: (m, n1) where n1=400
 
+A1 = X;
 
+Z2 = [ones(m, 1) A1] * Theta1';  % (m, n2)
+A2 = sigmoid(Z2);
 
+Z3 = [ones(m, 1) A2] * Theta2';  % (m, n3)
+A3 = sigmoid(Z3);
 
-
-
-
+[_max, p] = max(A3, [], 2);
 
 % =========================================================================
-
 
 end
