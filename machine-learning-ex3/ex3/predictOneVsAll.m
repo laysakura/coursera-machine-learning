@@ -30,11 +30,14 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% MEMO:
+% oneVsAll returns all_theta.
+% all_theta (K x n+1) : each row represents thetas of each classifier.
+% all_theta * X' (K x m) : element (k, i) means input of sigmoid function.
+%     So, max (for i) gives the most probable k.
 
-
-
-
-
+A = all_theta * X';
+[_max, p] = max(A, [], 1);
 
 % =========================================================================
 
