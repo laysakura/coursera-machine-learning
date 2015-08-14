@@ -49,16 +49,18 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+% MEMO
+% y: (m=5000) x 1
+% X: (m=5000) x (n=400 + 1)
+% all_theta: (K=10) x (n=400 + 1) => each row represents a classifier itself.
 
+options = optimset('GradObj', 'on', 'MaxIter', 50);
+initial_theta = zeros(n + 1, 1)
 
-
-
-
-
-
-
-
-
+for k = 1:num_labels
+  [theta] = fmincg(@(t)(lrCostFunction(t, X, (y == k), lambda)), initial_theta, options);
+  all_theta(k, :) = theta;
+end
 
 % =========================================================================
 
