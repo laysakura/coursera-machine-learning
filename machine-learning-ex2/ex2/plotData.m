@@ -12,13 +12,11 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
+pos_indices = find(y == 1);
+neg_indices = find(y == 0);
 
-
-
-
-
-
-
+plot(X(pos_indices, 1), X(pos_indices, 2), 'k+', 'Color', 'r');
+plot(X(neg_indices, 1), X(neg_indices, 2), 'ko', 'Color', 'g');
 
 % =========================================================================
 
