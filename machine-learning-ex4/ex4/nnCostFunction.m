@@ -63,7 +63,23 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% Part1!!
+% Theta1 : (hidden_layer_size, input_layer_size+1)
+% Theta2 : (num_labels, hidden_layer_size+1)
 
+A1 = X;  % (m, input_layer_size)
+
+Z2 = [ones(m,1), A1] * Theta1';  % (m, hidden_layer_size)
+A2 = sigmoid(Z2);                % (m, hidden_layer_size)
+
+Z3 = [ones(m,1), A2] * Theta2';  % (m, num_labels)
+A3 = sigmoid(Z3);                % (m, num_labels)
+
+Y = repmat(1:num_labels, m, 1) == y;  % (m, num_labels)
+
+S = -Y .* log(A3) - (1 .- Y) .* log(1 .- A3);  % (m, num_labels)
+
+J = (1/m) * sum( sum(S, 1), 2);
 
 
 
