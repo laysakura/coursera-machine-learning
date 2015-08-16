@@ -63,9 +63,9 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
-% Part1!!
-% Theta1 : (hidden_layer_size, input_layer_size+1)
-% Theta2 : (num_labels, hidden_layer_size+1)
+% Cost function J.
+%   Theta1 : (hidden_layer_size, input_layer_size+1)
+%   Theta2 : (num_labels, hidden_layer_size+1)
 
 A1 = X;  % (m, input_layer_size)
 
@@ -82,13 +82,31 @@ S = -Y .* log(A3) - (1 .- Y) .* log(1 .- A3);  % (m, num_labels)
 J = (1/m) * sum( sum(S, 1), 2);
 
 
-% Part2!!
+% Regularlize cost function J.
 reg1 = sum( (Theta1(:, 2:end) .^ 2)(:) );
 reg2 = sum( (Theta2(:, 2:end) .^ 2)(:) );
 
 J += (lambda/(2*m)) * (reg1 + reg2);
 
 
+% grad J.
+delta3 = A3 - Y;  % (m, num_labels)
+delta2 = (delta3 * Theta2(:, 2:end)) .* sigmoidGradient(Z2);  % (m, hidden_layer_size)
+
+Delta1 = zeros(hidden_layer_size, input_layer_size+1);  % (hidden_layer_size, input_layer_size+1)
+Delta2 = zeros(num_labels, hidden_layer_size+1);        % (num_labels, hidden_layer_size+1)
+for t = 1:m
+  Delta1 = Delta1 + ( [1, A1(t, :)]' * delta2(t, :) )';
+  Delta2 = Delta2 + ( [1, A2(t, :)]' * delta3(t, :) )';
+end
+
+Theta1_grad = (1/m) .* Delta1;
+Theta2_grad = (1/m) .* Delta2;
+
+
+% regularize grad J.
+Theta1_grad += (lambda/m) .* [zeros(hidden_layer_size, 1), Theta1(:, 2:end)];
+Theta2_grad += (lambda/m) .* [zeros(num_labels, 1), Theta2(:, 2:end)];
 
 % -------------------------------------------------------------
 
