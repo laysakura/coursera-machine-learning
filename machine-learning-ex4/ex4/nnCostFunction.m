@@ -82,17 +82,11 @@ S = -Y .* log(A3) - (1 .- Y) .* log(1 .- A3);  % (m, num_labels)
 J = (1/m) * sum( sum(S, 1), 2);
 
 
+% Part2!!
+reg1 = sum( (Theta1(:, 2:end) .^ 2)(:) );
+reg2 = sum( (Theta2(:, 2:end) .^ 2)(:) );
 
-
-
-
-
-
-
-
-
-
-
+J += (lambda/(2*m)) * (reg1 + reg2);
 
 
 
